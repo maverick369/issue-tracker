@@ -6,7 +6,7 @@ export class PaginationQueryDto {
   @IsOptional()
   @IsPositive()
   @Max(100)
-  limit: number = 100;
+  limit = 100;
 
   @ApiProperty({ required: false })
   @IsOptional()

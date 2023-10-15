@@ -16,7 +16,7 @@ import { IssuesModule } from './issues/issues.module';
       autoLoadEntities: true, // models will be loaded automatically
       synchronize: true, // your entities will be synced with the database(recommended: disable in prod)
     }),
-    IssuesModule
+    IssuesModule,
   ],
   controllers: [],
   providers: [],
