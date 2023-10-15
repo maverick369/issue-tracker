@@ -1,0 +1,6 @@
+PATCH http://localhost:3000/issues/5
+Content-Type: application/json
+
+{
+  "state": 2
+}

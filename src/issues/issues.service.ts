@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Issue } from './entities/issue.entity';
@@ -20,7 +24,7 @@ export class IssuesService {
   }
 
   async findOne(id: number) {
-    const issue = await this.issuesRepository.findOne({ where: { id: id } });
+    const issue = await this.issuesRepository.findOneBy({ id: id });
 
     if (!issue) throw new NotFoundException(`Issue #${id} not found`);
     return issue;
@@ -32,15 +36,20 @@ export class IssuesService {
   }
 
   async update(id: number, updateIssueDto: UpdateIssueDto) {
-    const issue = await this.issuesRepository.preload({
-      id,
+    const existingIssue = await this.issuesRepository.findOneBy({ id: id });
+
+    if (!existingIssue) throw new NotFoundException(`Issue #${id} not found`);
+
+    if (updateIssueDto.state && updateIssueDto.state < existingIssue.state) {
+      throw new BadRequestException(
+        `The issue state cannot be set back to the previous state. Current state: ${existingIssue.state}`,
+      );
+    }
+
+    return this.issuesRepository.save({
+      ...existingIssue,
       ...updateIssueDto,
     });
-
-    if (!issue) {
-      throw new NotFoundException(`Issue #${id} not found`);
-    }
-    return this.issuesRepository.save(issue);
   }
 
   async remove(id: number) {
