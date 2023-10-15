@@ -14,3 +14,36 @@ you&#39;re in charge. Choose whatever tools you&#39;re comfortable with and add 
 think would make sense. Do it as if it was your regular job assignment. Oh, and we really like tests.
 
 It should take you about 3-5 hours.
+
+## Used technologies
+- NestJS
+- TypeScript
+- PostgreSQL
+- TypeORM
+- Docker
+
+## Configuration
+
+Create a `.env` file. Rename the [.env.sample](.env.sample) file to `.env`
+
+## Installation
+
+```bash
+# Install all dependencies
+$ npm install
+
+# Run PostgreSQL locally with Docker Compose in detached / background mode
+$ docker-compose up -d
+```
+
+## Running the app
+
+```bash
+# development
+$ npm run start
+dop
+# watch mode
+$ npm run start:dev
+```
+
+Run [http://localhost:3000](http://localhost:3000)
