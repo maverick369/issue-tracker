@@ -22,18 +22,18 @@ It should take you about 3-5 hours.
 - TypeORM
 - Docker
 
-## Configuration
-
-Create a `.env` file. Rename the [.env.sample](.env.sample) file to `.env`
-
 ## Installation
 
-```bash
-# Install all dependencies
-$ npm install
+1. Rename the [.env.sample](.env.sample) file to `.env`
 
-# Run PostgreSQL locally with Docker Compose in detached / background mode
-$ docker-compose up -d
+2. Install all dependencies:
+```bash
+$ npm install
+```
+
+3. Run PostgreSQL locally with Docker Compose in detached / background mode:
+```bash
+$ docker-compose up -d app-db
 ```
 
 ## Running the app
@@ -41,9 +41,99 @@ $ docker-compose up -d
 ```bash
 # development
 $ npm run start
-dop
+
 # watch mode
 $ npm run start:dev
 ```
 
-Run [http://localhost:3000](http://localhost:3000)
+Run [http://localhost:3000/docs](http://localhost:3000/docs) in your web browser.
+
+## Testing
+
+The application has been deployed on a test site. You can find it at: [https://issues.maverick.usermd.net/docs/](https://issues.maverick.usermd.net/docs/)
+
+### Open API
+
+Open API (Swagger) documentation:
+[https://issues.maverick.usermd.net/docs/](https://issues.maverick.usermd.net/docs/)
+
+or locally:
+[http://localhost:3000/docs/](https://localhost:3000/docs/)
+
+### CURL examples
+
+Examples of requests are also available in: `/test/http/`
+
+#### Create an issue:
+```bash
+$ curl --request POST \
+  --url http://localhost:3000/issues \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"title": "Test Issue",
+	"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+	"state": 1
+}'
+```
+
+#### Get all issues:
+
+```bash
+# default limit (also max): 100 items
+$ curl --request GET \
+  --url http://localhost:3000/issues
+```
+
+
+```bash
+# with offset and limit query parameters:
+$ curl --request GET \
+  --url 'http://localhost:3000/issues?offset=50&limit=100'
+```
+
+
+#### Get an issue:
+```bash
+$ curl --request GET \
+  --url http://localhost:3000/issues/1
+```
+
+#### Update an issue:
+```bash
+$ curl --request PATCH \
+  --url http://localhost:3000/issues/1 \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"title": "Test Issue",
+	"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+	"state": 2
+}'
+```
+
+#### Update the state of an issue:
+```bash
+$ curl --request PATCH \
+  --url http://localhost:3000/issues/1 \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"state": 3
+}'
+```
+
+#### Remove an issue:
+```bash
+$ curl --request DELETE \
+--url http://localhost:3000/issues/1
+```
+
+### Unit tests and e2e tests
+
+Run unit tests:
+```bash
+$ npm run test
+```
+
+Run e2e tests:
+```bash
+$ npm run test:e2e
+```

@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IssueState } from '../enums/issue-state.enum';
 
 @Entity('issues')
 export class Issue {
@@ -12,5 +13,5 @@ export class Issue {
   description: string;
 
   @Column()
-  state: number;
+  state: IssueState;
 }
